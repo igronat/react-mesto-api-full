@@ -1,0 +1,5 @@
+@media screen and (max-width: 600px) {
+    .header__menu_type_exit {
+        flex-direction: column;   
+    }
+}

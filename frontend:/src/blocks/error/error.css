@@ -1,0 +1,10 @@
+.error {
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF0000;
+    margin: 0 0 13px 0;
+}
+
+.error:last-of-type {
+    margin: 0 0 31px 0;
+}

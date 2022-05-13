@@ -1,0 +1,5 @@
+.profile__title-button {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}

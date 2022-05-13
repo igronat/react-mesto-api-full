@@ -1,0 +1,15 @@
+.popup__foto {
+    max-width: 75vw;
+    max-height: 75vh;
+    margin-bottom: 10px;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+}
+
+@media screen and (min-width: 880px) {
+    .popup__foto {
+        max-width: 816px;
+        max-height: 540px;
+    }
+}

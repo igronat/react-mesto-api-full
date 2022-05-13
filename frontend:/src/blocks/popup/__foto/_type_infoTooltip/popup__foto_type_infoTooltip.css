@@ -1,0 +1,13 @@
+.popup__foto_type_infoTooltip {
+    width: 120px;
+    height: 120px;
+    margin-top: 60px;
+
+}
+
+@media screen and (max-width: 880px) {
+    .popup__foto_type_infoTooltip {
+        margin-top: 50px;
+    
+    }
+}

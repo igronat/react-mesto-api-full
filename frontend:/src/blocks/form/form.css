@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #FFFFFF;
+    width: 358px;
+    align-items: center;
+
+}
+
+@media screen and (max-width: 600px) {
+    .form {
+        width: 260px;   
+    }
+}

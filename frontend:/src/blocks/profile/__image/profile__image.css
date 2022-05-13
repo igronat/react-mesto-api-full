@@ -1,0 +1,12 @@
+.profile__image {
+    width: 120px;
+    object-fit: cover;
+    height: 120px;
+    border-radius: 50%;
+    
+}
+
+.profile__image:hover {
+    cursor: url('../../../images/edit-button.svg'), auto;
+    
+}
