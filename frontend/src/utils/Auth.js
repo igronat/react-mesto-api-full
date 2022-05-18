@@ -1,4 +1,4 @@
-export const BASE_URL = "http://api.domainname.igronat.nomoredomains.xyz";
+export const BASE_URL = "https://api.domainname.igronat.nomoredomains.xyz";
 
 const checkResponse = (response) => {
   try {

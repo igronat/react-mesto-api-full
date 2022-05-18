@@ -101,7 +101,7 @@ class Api {
 
 // подключаем к серверу
 const api = new Api({
-  address: "http://api.domainname.igronat.nomoredomains.xyz",
+  address: "https://api.domainname.igronat.nomoredomains.xyz",
 });
 
 export default api;

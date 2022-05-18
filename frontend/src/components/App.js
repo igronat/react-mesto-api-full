@@ -87,6 +87,7 @@ function App() {
         });
       })
       .catch((err) => {
+        handleFailure();
         console.log(`Ошибка авторизации пользователя: ${err}`);
       });
   };
