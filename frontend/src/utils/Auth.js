@@ -1,8 +1,11 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = "http://api.domainname.igronat.nomoredomains.xyz";
 
 const checkResponse = (response) => {
   try {
     if (response.status === 201) {
+      return response.json();
+    }
+    if (response.status === 200) {
       return response.json();
     }
   } catch (e) {
@@ -36,6 +39,12 @@ export const authorize = (email, password) => {
     body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
+    .then((data) => {
+      if (data.token) {
+        localStorage.setItem("jwt", data.token);
+        return data;
+      }
+    })
     .catch((err) => console.log(err));
 };
 

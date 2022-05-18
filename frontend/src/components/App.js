@@ -21,13 +21,19 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState({ name: "", about: "" });
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    about: "",
+    avatar: "",
+  });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
   const [isSuccess, setSuccess] = useState(false);
   const [isFailure, setFailure] = useState(false);
   const [userData, setUserData] = useState({});
+
+  const token = localStorage.getItem("jwt");
 
   useEffect(() => {
     tokenCheck();
@@ -36,14 +42,14 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       api
-        .getProfileInfo()
+        .getProfileInfo(token)
         .then((user) => {
           setCurrentUser(user);
         })
         .catch((err) => console.log(`Ошибка профиля: ${err}`));
 
       api
-        .getInitialCards()
+        .getInitialCards(token)
         .then((res) => {
           setCards(res);
         })
@@ -71,15 +77,14 @@ function App() {
     return auth
       .authorize(email, password)
       .then((data) => {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
+        auth.getContent(data.token).then((res) => {
           const userData = { email, password };
           setUserData(userData);
           setLoggedIn({
             loggedIn: true,
           });
           history.push("/");
-        }
+        });
       })
       .catch((err) => {
         console.log(`Ошибка авторизации пользователя: ${err}`);
@@ -140,7 +145,7 @@ function App() {
 
   const handleUpdateUser = (user) => {
     api
-      .editProfile(user)
+      .editProfile(user, token)
       .then((res) => {
         setCurrentUser(res);
         setEditProfilePopupOpen(false);
@@ -150,7 +155,7 @@ function App() {
 
   const handleUpdateAvatar = (user) => {
     api
-      .avatarProfile(user)
+      .avatarProfile(user, token)
       .then((res) => {
         setCurrentUser(res);
         setEditAvatarPopupOpen(false);
@@ -160,31 +165,28 @@ function App() {
 
   const handleAddPlaceSubmit = (user) => {
     api
-      .addCard(user)
+      .addCard(user, token)
       .then((res) => {
         setAddPlacePopupOpen(false);
         setCards([res, ...cards]);
       })
-      .catch((err) => console.log(`Ошибка аватара: ${err}`));
+      .catch((err) => console.log(`Ошибка добавления карточки: ${err}`));
   };
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+    api.changeLikeCardStatus(card._id, isLiked, token).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
 
   function handleCardDelete(card) {
-    // Снова проверяем, являемся ли мы владельцем текущей карточки
-    const isOwn = card.owner._id === currentUser._id;
-
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.deleteCard(card._id, !isOwn).then(() => {
-      setCards((state) => state.filter((c) => c._id != card._id));
+    api.deleteCard(card._id, token).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
     });
   }
 
